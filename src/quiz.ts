@@ -9,7 +9,9 @@ import {
   createAlert,
   createButton,
   createInput,
-  renderFinalScoreAlert,  
+  renderFinalScoreAlert,
+  createTapOptions, 
+  scoring 
 } from './utils'
 
 const quizState: QuizState = {
@@ -32,7 +34,25 @@ const renderAnswersUI = (currentQuestion: Question) => {
       answersContainerEl.appendChild(button)
     }
   } else if (currentQuestion.ui === 'tapOrdering') {
-    // TODO....
+    const input = createInput({
+      name: 'answer',
+      required: true,
+    })
+    answersContainerEl.appendChild(input)
+    for (const choice of currentQuestion.choices) {
+      const button = createButton({
+        text: choice,
+        color: 'btn-primary',
+        type: 'button',
+        onClick(event) {
+          const target = event.target as HTMLButtonElement
+          const text = target?.innerText + ' ' ?? ''
+          input.value = input.value + text
+          target.classList.add('d-none')
+        }
+      })
+      answersContainerEl.appendChild(button)
+    }
   } else if (currentQuestion.ui === 'textInput') {
     const input = createInput({
       name: 'answer',
@@ -59,9 +79,30 @@ const renderQuestionUI = () => {
   }
 }
 
-const handleSubmit = (event: Event) => {
+interface SubmitEvent extends Event {
+  readonly submitter: HTMLElement | null
+}
+
+const handleSubmit = (event: SubmitEvent) => {
   event.preventDefault()
-  // TODO: scoring
+  let answer:string
+  const currentQuestion = questions[quizState.questionIndex]
+  if (currentQuestion.ui === 'multipleChoice' && event.submitter) {
+    answer = event.submitter.innerText
+  } else if (currentQuestion.ui === 'textInput') {
+    const textAnswer = document.querySelector('input[name="answer"]') as HTMLInputElement
+    answer = textAnswer.value
+  } else if (currentQuestion.ui === 'tapOrdering') {
+    const textAnswer = document.querySelector('input[name="answer"]') as HTMLInputElement
+    answer = textAnswer.value.trim()
+  } 
+  else {
+    answer = ''
+  }
+  
+  if (scoring(questions[quizState.questionIndex], answer)){
+    quizState.score ++
+  }
   quizState.questionIndex++
   renderQuestionUI()
 }

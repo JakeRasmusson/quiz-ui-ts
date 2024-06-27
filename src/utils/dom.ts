@@ -18,8 +18,7 @@ interface CreateAlertArgs {
 
 export const createAlert = ({ text, color = 'alert-info' }: CreateAlertArgs) => {
   const alert = document.createElement('div')
-  alert.classList.add('alert')
-  alert.classList.add(color)
+  alert.classList.add('alert', color)
   alert.innerText = text
   return alert
 }
@@ -38,8 +37,7 @@ export const createButton = ({
   onClick,
 }: CreateButtonArgs) => {
   const button = document.createElement('button')
-  button.classList.add('btn')
-  button.classList.add(color)
+  button.classList.add('btn', color)
   button.innerText = text
   button.type = type
   if (onClick) {
@@ -58,7 +56,7 @@ interface CreateInputArgs {
 export const createInput = ({
   name,
   required = false,
-  type = 'text'
+  type = 'text',
 }: CreateInputArgs) => {
   const input = document.createElement('input')
   input.name = name
@@ -67,6 +65,20 @@ export const createInput = ({
   input.required = required
   return input
 }
+
+export const createTapOptions = (text: string) => {
+  const div = document.createElement('div')
+  const h2 = document.createElement('h2')
+  h2.innerText = text
+  div.appendChild(h2)
+  div.classList.add('draggable')
+  div.classList.add('bg-secondary')
+  div.classList.add('border')
+  div.classList.add('border-dark')
+  div.classList.add('rounded')
+  return div
+}
+
 
 export const renderFinalScoreAlert = (score: number, numQuestions: number) => {
   if (!quizContainerEl) throw Error('Missing quizContainerEl in DOM')
