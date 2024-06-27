@@ -2,14 +2,17 @@
   "name": "quiz-ui-ts",
   "version": "1.0.0",
   "description": "Multi-type question quiz UI",
-  "main": "index.js",
+  "source": "src/index.html",
   "scripts": {
+    "start": "parcel",
+    "build": "parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "parcel": "^2.12.0",
     "typescript": "^5.5.2"
   }
 }
