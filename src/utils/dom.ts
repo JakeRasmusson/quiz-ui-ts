@@ -1,6 +1,6 @@
 import { AlertColor, ButtonColor } from "../types" 
 
-export const quizContainerEl = document.getElementById('quizContainer')
+export const quizContainerEl = document.getElementById('quiz-container')
 export const questionTextEl = document.getElementById('question-text')
 export const answerForm = document.getElementById('answer-form')
 export const answersContainerEl = document.getElementById('answers-container')
@@ -52,7 +52,7 @@ export const createButton = ({
 interface CreateInputArgs {
   name: string
   required?: boolean
-  type: HTMLInputElement['type']
+  type?: HTMLInputElement['type']
 }
 
 export const createInput = ({
